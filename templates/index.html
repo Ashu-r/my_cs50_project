@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div id = "intro" class="display-4">Are you unsure about which phone to buy? <br>
+        We will help you find an ideal phone.
+    </div>
+
+    <div class="row justify-content-center">
+        <div id="start" class="col text-center">
+            <button type="button" class="btn btn-lg btn-outline-primary">Find my ideal phone</button>
+        </div>
+    </div>
+    
+
+
+    <div id ="bgt" class="col d-none text-center">
+        <form action="/" method="POST">
+            <h1 class="display-4">My budget is around...</h1>
+
+            <button type="submit" value="5000" class="btn btn-lg btn-outline-primary"> ₹5,000</button>
+            
+            <button type="submit"" value="8000" class="btn btn-lg btn-outline-primary"> ₹8,000</button>
+            <br>
+            <button type="submit"" value="10000" class="btn btn-lg btn-outline-primary"> ₹10,000</button>
+            
+            <button type="submit"" value="12000" class="btn btn-lg btn-outline-primary"> ₹12,000</button>
+            <br>
+            <button type="submit"" value="15000" class="btn btn-lg btn-outline-primary"> ₹15,000</button>
+            
+            <button type="submit"" value="20000" class="btn btn-lg btn-outline-primary"> ₹20,000</button>
+            <br>
+            <button type="submit"" value="25000" class="btn btn-lg btn-outline-primary"> ₹25,000</button>
+            
+            <button type="submit"" value="30000" class="btn btn-lg btn-outline-primary"> ₹30,000</button>
+            <br>
+        </form>
+    </div>
+    
+    <!-- <h1 class="display-4">My budget is</h1> -->
+    <!-- <button type="button" class="btn btn-lg btn-outline-primary">Primary</button> -->
+{% endblock %}

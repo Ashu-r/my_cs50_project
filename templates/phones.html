@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<h1 class="display-4">
+    Check out these recommendations
+</h1>
+{%for phone in phones %}
+    <div class="card" style="width: 20rem;">
+        <div class="card-horizontal">
+            <div class="row">
+                <div class="col-sm">
+                    <img src="{{phone.image}}" alt="Card image cap">
+                </div>
+                <div class="col-sm align-self-center">
+                    <i class="fas fa-memory"></i> {{phone.ram}} <br>
+                    <i class="fas fa-hdd"></i> {{phone.storage}} STORAGE <br>
+                    <i class="fas fa-battery-full"></i> {{phone.battery}} 
+                </div>
+
+            </div>
+            
+            
+            <div class="card-body">
+            <h5 class="card-title">{{phone.name}}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{phone.camera}}</li>
+            <li class="list-group-item">{{phone.front_cam}}</li>
+            <li class="list-group-item">{{phone.processor}}</li>
+            <!-- <p class="card-text">{{phone.discription}}</p> -->
+            <div class="card-body">
+            <a href="#" class="card-link  btn btn-outline-primary">Buy</a>
+            <a href="#" disabled class="card-link">{{phone.price}}</a>
+            </div>
+        </div>
+
+    </div>
+{%endfor%}
+
+
+{% endblock %}

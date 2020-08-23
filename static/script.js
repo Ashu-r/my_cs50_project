@@ -5,7 +5,9 @@ const allbgt = $('#bgt');
 
 $(document).ready(function() {
 	$(start).click(function() {
-		$('#intro').hide('slow');
+		$('.intro').removeClass('d-md-block d-md-none');
+		// $('#intro').addClass('d-none');
+		$('.intro').hide();
 		$(this).hide();
 		$('#bgt').removeClass('d-none');
 		$('#bgt').show();

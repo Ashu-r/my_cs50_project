@@ -9,7 +9,6 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 # from waitress import serve
-import scraper
 
 # Configure application
 app = Flask(__name__)
@@ -58,7 +57,7 @@ def index():
         budget = request.form['price']
         # scraper.main(tier=budget)
         phone_data = db.execute(
-            "SELECT * FROM PHONES WHERE tier=:budget", budget=budget)
+            "SELECT * FROM PHONES{}".format(budget))
 
         return render_template("phones.html", phones=phone_data)
 

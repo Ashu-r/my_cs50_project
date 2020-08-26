@@ -5,19 +5,20 @@ import sqlite3
 from sqlite3 import Error
 
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "phone.db")
+
+try:
+    connection = sqlite3.connect(db_path)
+except Error as e:
+    print(e)
+
+db = connection.cursor()
+
+
 def main(tier):
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    db_path = os.path.join(BASE_DIR, "phone.db")
-
-    try:
-        connection = sqlite3.connect(db_path)
-    except Error as e:
-        print(e)
-
-    db = connection.cursor()
-
     def remove(string):
-        return string.replace(" ", "")
+        return string.replace(" ", "+")
 
     if tier != 'best':
         source = requests.get(
@@ -33,9 +34,14 @@ def main(tier):
 
     phones = []
     prices = []
-
+    az_link = []
     for phone in all_phone:
-        phones.append(phone.h3.get_text())
+        eachphone = phone.h3.get_text()
+        phones.append(eachphone)
+        az_link.append(
+            f'https://www.amazon.in/s?k={remove(eachphone)}&tag=ashu4111-21')
+
+    print(len(phones))
 
     all_price = soup.find_all(
         "span", class_=["price price_padding", "price price_float"])
@@ -48,26 +54,38 @@ def main(tier):
     bat = []
     frocam = []
     ram = []
+    bar_performance = []
+    bar_display = []
+    bar_camera = []
+    bar_battery = []
     counter = 1
 
     big_section = soup.find_all("li", class_="left")
     for item in big_section:
         my_property = (item.contents[0].strip())
         all_item = item.find("div", class_="a")
+        if item.find("div", class_="mtr_bar_div"):
+            bar = only_num(item.find("div", class_="mtr_bar_div").div['style'])
+
+        else:
+            bar = "0;display: none;"
+
         if my_property == "Performance":
             per.append(all_item.contents[2].get_text())
             ram.append(all_item.contents[4].get_text())
+            bar_performance.append(bar)
 
-        # elif my_property == "Display":
-        #     for pro in all_item:
-        #         dis.append(pro.get_text())
+        elif my_property == "Display":
+            bar_display.append(bar)
 
         elif my_property == "Camera":
             cam.append(all_item.contents[0].get_text())
             frocam.append(all_item.contents[4].get_text())
+            bar_camera.append(bar)
 
         elif my_property == "Battery":
             bat.append(all_item.contents[0].get_text())
+            bar_battery.append(bar)
 
     storage = []
     all_storage = soup.find_all("div", class_="finder_icon_storage_text")
@@ -92,9 +110,9 @@ def main(tier):
         images.append(imgid)
 
     for item in range(len(phones)):
-        db.execute("""INSERT INTO PHONES (name, price, camera, front_cam, processor, storage, ram, battery, discription, image, tier)
+        db.execute("""INSERT INTO PHONES{10} (name, price, camera, front_cam, processor, storage, ram, battery, discription, image, tier, bar_performance, bar_display, bar_camera, bar_battery, az_link)
         VALUES ("{0}","{1}","{2}","{3}","{4}","{5}",
-                "{6}","{7}","{8}","{9}","{10}")
+                "{6}","{7}","{8}","{9}","{10}","{11}","{12}","{13}","{14}","{15}")
         ON CONFLICT(name) DO UPDATE SET
         name= "{0}",
         price= "{1}",
@@ -106,17 +124,32 @@ def main(tier):
         battery= "{7}",
         discription= "{8}",
         image = "{9}",
-        tier= "{10}"
-        """.format(phones[item], prices[item], cam[item], frocam[item], per[item], storage[item], ram[item], bat[item], info[item], images[item], tier))
+        tier= "{10}",
+        bar_performance = "{11}",
+        bar_display = "{12}",
+        bar_camera = "{13}",
+        bar_battery = "{14}",
+        az_link = "{15}"
+        """.format(phones[item], prices[item], cam[item], frocam[item], per[item], storage[item], ram[item], bat[item], info[item], images[item], tier, bar_performance[item], bar_display[item], bar_camera[item], bar_battery[item], az_link[item]))
 
     connection.commit()
-    connection.close()
+
+
+def only_num(bar):
+    num = ''
+    for letter in range(len(bar)):
+        if bar[letter].isdigit():
+            num += bar[letter]
+
+    return num
 
 
 all_the_choices = ['5000', '8000', '10000', '12000',
                    '15000', '20000', '25000', '30000', 'best']
+# main('20000')
 
 if __name__ == '__main__':
     for choice in all_the_choices:
         print(f"Extracting phones of price/tier: {choice}")
         main(choice)
+    connection.close()

@@ -6,6 +6,10 @@ button {
 	align-items: center;
 }
 
+.bar {
+	font-size: small;
+}
+
 .display-4 {
 	padding-bottom: 1.3rem;
 }
@@ -71,4 +75,15 @@ body {
 	width: 100%;
 	z-index: 1000000;
 	top: 0;
+}
+
+.progress-bar {
+	background: -webkit-linear-gradient(left, #f282bc 0%, #33156d 100%);
+}
+
+.beta {
+	font-size: 10px;
+	vertical-align: bottom;
+	top: 10px; //depends on your font-size
+	position: relative;
 }

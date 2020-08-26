@@ -2,6 +2,7 @@ const start = $('#start');
 const pricebtn = $('#bgt .btn');
 const pricecustom = $('#bgt input');
 const allbgt = $('#bgt');
+const progress = $('.progress-bar');
 
 $(document).ready(function() {
 	$(start).click(function() {
@@ -19,6 +20,7 @@ $(document).ready(function() {
 		$('#bgt').hide();
 		$(this).attr('name', 'price');
 	});
+
 	// $(pricecustom).keypress(function(event) {
 	// 	// if ((this).hasClass(otherbgt));
 	// 	let keycode = event.keyCode ? event.keyCode : event.which;
